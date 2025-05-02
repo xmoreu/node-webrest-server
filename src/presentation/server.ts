@@ -1,5 +1,6 @@
 import express, { Router } from 'express'
 import path from 'path'
+import { sequelize } from '../data/sequelize'
 interface Options {
     port: number,
     public_path?: string,
@@ -19,6 +20,18 @@ export class Server {
     }
 
     async start() {
+
+        try {
+            await sequelize.authenticate();
+            console.log('Connection has been established successfully with MySQL(sequelize).');
+          } catch (error) {
+            console.error('Unable to connect to the database:', error);
+          }
+         const actoresModel= sequelize.models.get('actores')
+         const actores=await actoresModel?.findAll()
+         console.log(actores)
+
+
         // Middlewares
         this.app.use(express.json())  //Permet llegir json pel raw
         this.app.use(express.urlencoded({extended:true})) //Permet llegir format x-www-form-urlencode
