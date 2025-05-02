@@ -18,6 +18,7 @@ export class TodosController {
         if (isNaN(id)) {
             res.status(400).json({ error: 'Id argument is not a number' })  //400 Bad request
             return
+            
         }
         //const todo = todos.find(todo => todo.id === id)
         const todo=await prisma.todo.findFirst({
